@@ -1,5 +1,5 @@
-def bisection_method(func, args, TOL = 10**(-4)):
-    a, b = args
+def bisection_method(func, range, TOL = 1e-4):
+    a, b = range
 
     # Get the values for Intermediate Theorem
     f_a = func(a)
