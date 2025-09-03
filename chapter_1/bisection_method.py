@@ -1,4 +1,4 @@
-def bisection_method(func, args):
+def bisection_method(func, args, TOL = 10**(-4)):
     a, b = args
 
     # Get the values for Intermediate Theorem
@@ -8,7 +8,6 @@ def bisection_method(func, args):
 	# Initial settings
     p = 0
     counter = 0
-    TOL = 10**(-4)
     f_p = func(p)
 
     result = a if f_a == 0 else (b if f_b == 0 else None)
@@ -29,9 +28,12 @@ def bisection_method(func, args):
     print(f"{'Count':<8}|{'a':<15}|{'b':<15}|{'p':<15}|{'abs(a-b)':<15}|{'f(p)':<15}")
     print("-" * 80)
     
-    while abs(a - b) > TOL:
-        print(f"{counter:<8}|{a:<15.5f}|{b:<15.5f}|{p:<15.5f}|{abs(a-b):<15.5e}|{f_p:>8.5f}")
+    while True:
+        print(f"{counter:<8}|{a:<15.5f}|{b:<15.5f}|{p:<15.7}|{abs(a-b):<15.5e}|{f_p:>8.5f}")
 
+        if abs(a - b) <= TOL:
+            return p, counter
+        
         if f_p == 0:
             return p, counter
 
@@ -42,8 +44,5 @@ def bisection_method(func, args):
         counter += 1
         f_p = func(p)
 
-    return p, counter
-
-
-bisection_method(lambda x: x**3 - x - 2, (1, 2))
-
+p = bisection_method(lambda x: x**3 + 4*x**2 - 10, (1,2))
+print(f"Final Result: {p[0]}")
