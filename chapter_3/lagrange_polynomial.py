@@ -1,28 +1,35 @@
 import sympy as sp
+import numpy as np
 
-def define_L_nk(n=5, k=3):
+def l_nk (points, n, k):
     x = sp.symbols('x')
-    result = 1
-    for i in range(n + 1):
-        if i == k:
-            continue
-        else:
-            term = (x - i) / (k - i)
-            result *= term
-    print("L_{n,k}(x) =", result)
-    return result
-
-def lagrange_polynomial(func, n=5):
-    x = sp.symbols('x')
-    result = 0
-    print(f"Constructing Lagrange polynomial of degree {n} for the function {func(x)}")
-    for k in range(n + 1):
-        L_nk = define_L_nk(n, k)
-        term = func(k) * L_nk
-        result += term
-        print(f"Term for k={k}: {term}")
     
-    # Print result in x first and then in numerical value
-    print(f"Lagrange polynomial of degree {n} is: {result}")
-    print(f"Numerical value: {result}")
+    result = 1
+    for i in range(n):
+        if (i == k):
+            continue
+        term = (x - points[i][0])/(points[k][0] - points[i][0])
+        result *= term
+
     return result
+        
+def lagrange_polynomial(points):
+    n = points.shape[0]
+    print(n)
+    
+    result = 0
+    for i in range(n):
+        l = l_nk(points, n ,i)
+        # print (f"l:{i}, l: {l}")
+        term = l * points[i][1]
+        # print (f"term {i}: {term}")
+        result += term
+    
+    print (f"Lagrange Polynomial of degree {n}: {result}")
+    
+    return result
+    
+# np_array = np.array([[0, 1], [1, 3], [2, 2], [3, 5], [4, 4], [5, 6]])
+np_array = np.array([[2, 0.5], [2.75, 4/11], [4, 0.25]])
+# np_array = np.array([[2,4], [5,1]])
+x = lagrange_polynomial(np_array)
